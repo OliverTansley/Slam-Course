@@ -1,4 +1,5 @@
 import math
+from typing import Tuple
 from matplotlib import patches
 
 class Robot:
@@ -20,11 +21,14 @@ class Robot:
 
     # Calculate the end point of the radius line based on the angle
     angle_radians = math.pi * angle_degrees/180 
-    x_end = center[0] + radius * math.cos(angle_radians)
-    y_end = center[1] + radius * math.sin(angle_radians)
+    x_end = center[0] + radius * math.sin(angle_radians)
+    y_end = center[1] + radius * math.cos(angle_radians)
     
     # Draw the radius line
     ax.plot([center[0], x_end], [center[1], y_end], color='black')
+
+  def run(self) -> Tuple[float,float]:
+    return (1,1)
 
     
 class Laser:
