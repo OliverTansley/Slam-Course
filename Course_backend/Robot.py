@@ -2,20 +2,21 @@ import math
 from typing import Tuple
 from matplotlib import patches
 
-class Robot:
+
+class EmptyRobot:
   
   def __init__(self) -> None:
     self.laser = Laser()
     self.x:float = 2
-    self.y:float =  2
+    self.y:float =  8
     self.orientation:float = 0 # degrees
-    
 
-  def show(self,ax):
+
+  def show(self,ax) -> None:
     self.draw_circle_with_radius(ax,(self.x,self.y),0.4,self.orientation)
   
   
-  def draw_circle_with_radius(self,ax, center, radius, angle_degrees):
+  def draw_circle_with_radius(self,ax, center, radius, angle_degrees) -> None:
     self.circle = patches.Circle(center, radius, edgecolor='black', facecolor='gray')
     ax.add_patch(self.circle)
 
@@ -28,7 +29,7 @@ class Robot:
     ax.plot([center[0], x_end], [center[1], y_end], color='black')
 
   def run(self) -> Tuple[float,float]:
-    return (1,1)
+    return (0,2.25)
 
     
 class Laser:

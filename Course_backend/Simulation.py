@@ -2,7 +2,7 @@
 import math
 from random import random
 from typing import List, Tuple
-from Course_backend.Robot import Robot
+from Course_backend.Robot import EmptyRobot
 from Course_backend.obstacles import Wall,base_map
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
@@ -11,9 +11,10 @@ from matplotlib.animation import FuncAnimation
 global DELTA_TIME
 DELTA_TIME = 100
 
-def simulate_robot(robot:Robot = Robot(),robot_map:List[Wall] = base_map,total_time = 10, noise_strength = 0.1):
+
+def simulate_robot(robot:EmptyRobot,robot_map:List[Wall] = base_map,total_time = 15, noise_strength = 0.1) -> FuncAnimation:
   
-  robot.x,robot.y = 2,2
+  robot.x,robot.y = 2,8
   
   fig, ax = plt.subplots(figsize=(4, 4),dpi=100)
   plt.close()
@@ -38,11 +39,11 @@ def simulate_robot(robot:Robot = Robot(),robot_map:List[Wall] = base_map,total_t
     
     if bearing_change != 0:
       R = average_change/bearing_change
-      delta_x = R * (math.cos(2*math.pi*robot.orientation/360) - math.cos(2*math.pi*robot.orientation/360 - 360 * bearing_change/2*math.pi)) + random() * noise_strength
-      delta_y = R * (math.sin(2*math.pi*robot.orientation/360) - math.sin(2*math.pi*robot.orientation/360 - 360 * bearing_change/2*math.pi)) + random() * noise_strength
+      delta_x = R * (math.cos(2*math.pi*robot.orientation/360) - math.cos(2*math.pi*robot.orientation/360 - 360 * bearing_change/2*math.pi)) + random()/10 * noise_strength
+      delta_y = -R * (math.sin(2*math.pi*robot.orientation/360) - math.sin(2*math.pi*robot.orientation/360 - 360 * bearing_change/2*math.pi)) + random()/10 * noise_strength
     else:
-      delta_x = average_change*math.cos(2*math.pi*robot.orientation/360 - 360 * bearing_change/2*math.pi) + random()/10
-      delta_y = average_change*math.sin(2*math.pi*robot.orientation/360 - 360 * bearing_change/2*math.pi) + random()/10
+      delta_x = average_change*math.cos(2*math.pi*robot.orientation/360 - 360 * bearing_change/2*math.pi) + random()/10 * noise_strength
+      delta_y = average_change*math.sin(2*math.pi*robot.orientation/360 - 360 * bearing_change/2*math.pi) + random()/10 * noise_strength
     
     robot.x += delta_x
     robot.y += delta_y
@@ -53,5 +54,3 @@ def simulate_robot(robot:Robot = Robot(),robot_map:List[Wall] = base_map,total_t
   sim_animation = FuncAnimation(fig=fig,func=update_sim, frames=int(total_time * int(1000/DELTA_TIME)),interval=int(DELTA_TIME))
   return sim_animation
   
-if __name__ == "__main__":
-  simulate_robot(total_time=5)
